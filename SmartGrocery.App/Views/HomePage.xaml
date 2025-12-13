@@ -1,0 +1,43 @@
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="SmartGrocery.App.Views.HomePage"
+    x:Name="Page"
+    Title="My Lists">
+
+    <StackLayout Padding="10" Spacing="10">
+        
+
+        <CollectionView ItemsSource="{Binding Lists}"
+                SelectionMode="Single"
+                SelectionChanged="CollectionView_SelectionChanged">
+    <CollectionView.ItemTemplate>
+        <DataTemplate>
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- List name and count -->
+                <StackLayout Grid.Column="0" Spacing="2">
+                    <Label Text="{Binding ListName}" FontSize="Medium" />
+                    <Label Text="{Binding TotalItems, StringFormat='{0} items'}" FontSize="Small" TextColor="Gray"/>
+                </StackLayout>
+
+                <!-- Delete button -->
+                <Button 
+                    Grid.Column="1" 
+                    Text="🗑" 
+                    BackgroundColor="Transparent" 
+                    Command="{Binding BindingContext.DeleteListCommand, Source={x:Reference Name=Page}}" 
+                    CommandParameter="{Binding .}" />
+            </Grid>
+        </DataTemplate>
+    </CollectionView.ItemTemplate>
+</CollectionView>
+
+
+        <Button Text="Create New List" Command="{Binding AddListCommand}"/>
+    </StackLayout>
+</ContentPage>

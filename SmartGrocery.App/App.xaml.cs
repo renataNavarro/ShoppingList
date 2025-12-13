@@ -1,14 +1,14 @@
 ﻿namespace SmartGrocery.App;
 
-public partial class App : Application
+ public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
-	}
-
-	protected override Window CreateWindow(IActivationState? activationState)
+    public App()
+    {
+        InitializeComponent();
+       
+    }
+    protected override Window CreateWindow(IActivationState? activationState)
 	{
 		return new Window(new AppShell());
 	}
-}
+} 
