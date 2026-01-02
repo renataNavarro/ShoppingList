@@ -3,46 +3,7 @@
     x:Class="SmartGrocery.App.Views.ShoppingListPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewmodels="clr-namespace:SmartGrocery.App.ViewModels"
-    x:Name="ShoppingPage"
-    Title="Meus Itens">
+    Title="{Binding ListName}">
 
-    <VerticalStackLayout Padding="20">
-        <Entry
-            ClearButtonVisibility="WhileEditing"
-            Placeholder="Buscar item..."
-            Text="{Binding SearchQuery}" />
-
-        <CollectionView
-            Margin="0,10,0,0"
-            ItemsSource="{Binding Items}"
-            SelectionMode="None">
-
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="10" ColumnDefinitions="*,Auto,Auto">
-                        <Label
-                            Grid.Column="0"
-                            FontSize="18"
-                            Text="{Binding Quantity}" />
-                        <Label
-                            Grid.Column="1"
-                            FontSize="14"
-                            Text="{Binding ItemName}"
-                            TextColor="Gray" />
-                        <Button
-                            Grid.Column="2"
-                            BackgroundColor="Transparent"
-                            Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference Name=ShoppingPage}}"
-                            CommandParameter="{Binding .}"
-                            Text="🗑" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-
-
-        </CollectionView>
-        <Button Command="{Binding AddItemCommand}" Text="Add Item" />
-
-    </VerticalStackLayout>
+   
 </ContentPage>

@@ -22,27 +22,27 @@ namespace SmartGrocery.Infrastructure.Data
             _db = new SQLiteAsyncConnection(dbPath);
             InitializeAsync().Wait();
         } */
-public LocalDatabase(string dbPath)
-{
-    try
-    {
-        Console.WriteLine("DB: Entrando no construtor");
-        Console.WriteLine($"DB: Caminho = {dbPath}");
+        public LocalDatabase(string dbPath)
+        {
+            try
+            {
+                Console.WriteLine("DB: Entrando no construtor");
+                Console.WriteLine($"DB: Caminho = {dbPath}");
 
-        _database = new SQLite.SQLiteAsyncConnection(dbPath);
-        Console.WriteLine("DB: Conexão criada");
+                _database = new SQLite.SQLiteAsyncConnection(dbPath);
+                Console.WriteLine("DB: Conexão criada");
 
-        _database.CreateTableAsync<ShoppingList>();
-        Console.WriteLine("DB: Tabela criada");
-        _database.CreateTableAsync<Item>();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine("DB: ERRO");
-        Console.WriteLine(ex.ToString());
-        throw;
-    }
-}
+                _database.CreateTableAsync<ShoppingList>();
+                Console.WriteLine("DB: Tabela criada");
+                _database.CreateTableAsync<Item>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DB: ERRO");
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+        }
 
         private async Task InitializeAsync()
         {
@@ -70,9 +70,14 @@ public LocalDatabase(string dbPath)
                 return _database.InsertAsync(list);
         }
 
-        public Task DeleteListAsync(int id)
+        public async Task DeleteListAsync(int id)
         {
-            return _database.DeleteAsync<ShoppingList>(id);
+            await _database.ExecuteAsync(
+                    "DELETE FROM Item WHERE ShoppingListId = ?", id);
+                    /*Test orphan items removed 
+                    var list = GetItemsAsync();
+                    System.Console.WriteLine("items: "+list.Result.Count); */
+            await _database.DeleteAsync<ShoppingList>(id);
         }
 
         // --- Items ---

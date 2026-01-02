@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SmartGrocery.App.Views.AddListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="New List">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button
+            Grid.Row="0"
+            BackgroundColor="Transparent"
+            Clicked="Cancel_Clicked"
+            FontSize="16"
+            HorizontalOptions="End"
+            Text="Cancel"
+            TextColor="White" />
+        <VerticalStackLayout
+            Grid.Row="1"
+            Padding="24"
+            HorizontalOptions="Fill"
+            Spacing="8"
+            VerticalOptions="Start">
+
+            <!--  List name  -->
+            <Label
+                Margin="0,0,0,8"
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalTextAlignment="Center"
+                Text="Give Your List a Name" />
+            <Frame
+                Padding="4"
+                BackgroundColor="#2D2D2D"
+                BorderColor="Transparent"
+                CornerRadius="12"
+                HasShadow="False"
+                IsVisible="{Binding HasLists}">
+                <Entry
+                    x:Name="ListNameEntry"
+                    ClearButtonVisibility="WhileEditing"
+                    Placeholder="e.g. Weekly groceries"
+                    PlaceholderColor="#B0B0B0"
+                    TextColor="#FFFFFF" />
+            </Frame>
+            <!--  List type  -->
+            <Label
+                Margin="0,24,0,12"
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalTextAlignment="Center"
+                Text="List Layout" />
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+
+                <!--  Simple  -->
+                <Frame
+                    x:Name="SimpleFrame"
+                    Padding="12"
+                    BackgroundColor="#2D2D2D"
+                    BorderColor="Transparent"
+                    CornerRadius="12"
+                    HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSimpleTapped" />
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout
+                        HorizontalOptions="Center"
+                        Spacing="8"
+                        VerticalOptions="Center">
+                        <Label
+                            FontSize="28"
+                            HorizontalTextAlignment="Center"
+                            Text="📝"
+                            TextColor="White" />
+                        <Label
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            Text="Simple"
+                            TextColor="White" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!--  Quantity  -->
+                <Frame
+                    x:Name="QuantityFrame"
+                    Grid.Column="1"
+                    Padding="12"
+                    BackgroundColor="#2D2D2D"
+                    BorderColor="Transparent"
+                    CornerRadius="12"
+                    HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnQuantityTapped" />
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout
+                        HorizontalOptions="Center"
+                        Spacing="8"
+                        VerticalOptions="Center">
+                        <Label
+                            FontSize="28"
+                            HorizontalTextAlignment="Center"
+                            Text="🔢"
+                            TextColor="White" />
+                        <Label
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            Text="Quantity"
+                            TextColor="White" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!--  Checklist  -->
+                <Frame
+                    x:Name="ChecklistFrame"
+                    Grid.Column="2"
+                    Padding="12"
+                    BackgroundColor="#2D2D2D"
+                    BorderColor="Transparent"
+                    CornerRadius="12"
+                    HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnChecklistTapped" />
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout
+                        HorizontalOptions="Center"
+                        Spacing="8"
+                        VerticalOptions="Center">
+                        <Label
+                            FontSize="28"
+                            HorizontalTextAlignment="Center"
+                            Text="☑"
+                            TextColor="White" />
+                        <Label
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            Text="Checklist"
+                            TextColor="White" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+
+
+            <Button
+                Margin="0,24,0,0"
+                BackgroundColor="#512bd4"
+                Clicked="Create_Clicked"
+                FontAttributes="Bold"
+                FontSize="16"
+                Text="Create List"
+                TextColor="White" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

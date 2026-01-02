@@ -1,43 +1,133 @@
-<ContentPage 
+<ContentPage
+    x:Class="SmartGrocery.App.Views.HomePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="SmartGrocery.App.Views.HomePage"
     x:Name="Page"
-    Title="My Lists">
+    Title="Smart Shopping Lists">
 
-    <StackLayout Padding="10" Spacing="10">
-        
+    <Grid Padding="20" RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <Frame
+            Grid.Row="0"
+            Margin="10,5"
+            Padding="4"
+            BackgroundColor="#2D2D2D"
+            BorderColor="Transparent"
+            CornerRadius="12"
+            HasShadow="False"
+            IsVisible="{Binding HasLists}">
+            <Entry
+                BackgroundColor="Transparent"
+                ClearButtonVisibility="WhileEditing"
+                HeightRequest="44"
+                Placeholder="Search lists..."
+                PlaceholderColor="#B0B0B0"
+                Text="{Binding SearchQuery}"
+                TextColor="White" />
+        </Frame>
 
-        <CollectionView ItemsSource="{Binding Lists}"
-                SelectionMode="Single"
-                SelectionChanged="CollectionView_SelectionChanged">
-    <CollectionView.ItemTemplate>
-        <DataTemplate>
-            <Grid Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <Label
+            Grid.Row="1"
+            Margin="10.5"
+            FontSize="16"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding HasLists, Converter={StaticResource InverseBoolConverter}}"
+            Text="You don’t have any lists yet."
+            TextColor="Gray"
+            VerticalOptions="CenterAndExpand" />
+        <Label
+            Grid.Row="2"
+            Margin="12,36,12,12"
+            FontAttributes="Bold"
+            FontSize="16"
+            HorizontalTextAlignment="Start"
+            IsVisible="{Binding HasLists}"
+            Text="YOUR LISTS"
+            TextColor="Gray"
+            VerticalOptions="CenterAndExpand" />
+        <CollectionView
+            Grid.Row="3"
+            IsVisible="{Binding HasLists}"
+            ItemsSource="{Binding Lists}"
+            SelectionChanged="CollectionView_SelectionChanged"
+            SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="10,5"
+                        Padding="15"
+                        BackgroundColor="#2D2D2D"
+                        Stroke="Transparent"
+                        StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                <!-- List name and count -->
-                <StackLayout Grid.Column="0" Spacing="2">
-                    <Label Text="{Binding ListName}" FontSize="Medium" />
-                    <Label Text="{Binding TotalItems, StringFormat='{0} items'}" FontSize="Small" TextColor="Gray"/>
-                </StackLayout>
+                            <!--  List name and count  -->
+                            <StackLayout
+                                Grid.Column="0"
+                                Spacing="4"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontSize="Medium"
+                                    Text="{Binding ListName}"
+                                    TextColor="White" />
+                                <Label
+                                    FontSize="Small"
+                                    Text="{Binding TotalItems, StringFormat='{0} items'}"
+                                    TextColor="#B0B0B0" />
+                            </StackLayout>
 
-                <!-- Delete button -->
-                <Button 
-                    Grid.Column="1" 
-                    Text="🗑" 
-                    BackgroundColor="Transparent" 
-                    Command="{Binding BindingContext.DeleteListCommand, Source={x:Reference Name=Page}}" 
-                    CommandParameter="{Binding .}" />
-            </Grid>
-        </DataTemplate>
-    </CollectionView.ItemTemplate>
-</CollectionView>
+                            <!--  Delete button  -->
+                            <ImageButton
+                                Grid.Column="1"
+                                Padding="10"
+                                Aspect="AspectFit"
+                                BackgroundColor="Transparent"
+                                Command="{Binding BindingContext.DeleteListCommand, Source={x:Reference Name=Page}}"
+                                CommandParameter="{Binding .}"
+                                HeightRequest="28"
+                                Source="trash_can.svg"
+                                VerticalOptions="Center"
+                                WidthRequest="28" />
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{StaticResource Gray600}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
 
-        <Button Text="Create New List" Command="{Binding AddListCommand}"/>
-    </StackLayout>
+        <Button
+            Grid.Row="4"
+            Margin="0,0,20,20"
+            Padding="0"
+            BackgroundColor="#7C3AED"
+            Command="{Binding AddListCommand}"
+            CornerRadius="12"
+            FontSize="32"
+            HeightRequest="56"
+            HorizontalOptions="End"
+            Shadow="{Shadow Brush=#9D4EDD,
+                            Offset='0,2',
+                            Radius=8,
+                            Opacity=0.6}"
+            Text="+"
+            TextColor="White"
+            VerticalOptions="End"
+            WidthRequest="56" />
+    </Grid>
 </ContentPage>

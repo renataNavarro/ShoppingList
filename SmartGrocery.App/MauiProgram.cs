@@ -4,6 +4,7 @@ using SmartGrocery.App.ViewModels;
 using SmartGrocery.App.Views;
 using SmartGrocery.Infrastructure.Data;
 using SmartGrocery.Infrastructure.Services;
+using SmartGrocery.App.Factories;
 
 namespace SmartGrocery.App;
 
@@ -23,6 +24,8 @@ namespace SmartGrocery.App;
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+
 // caminho do DB
         var dbPath = Path.Combine(FileSystem.AppDataDirectory, "smartgrocery.db3");
 		Console.WriteLine($"DB PATH: {dbPath}");
@@ -32,6 +35,8 @@ namespace SmartGrocery.App;
         // repo e services
         builder.Services.AddSingleton<IRepository, SqliteRepository>();
         builder.Services.AddSingleton<IRecommendationService, LocalRecommendationService>();
+		builder.Services.AddSingleton<ShoppingListViewFactory>();
+
 
         // views and viewmodels
 		builder.Services.AddSingleton<HomePage>();

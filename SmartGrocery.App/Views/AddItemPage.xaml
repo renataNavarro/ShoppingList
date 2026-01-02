@@ -1,29 +1,97 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+<ContentPage
+    x:Class="SmartGrocery.App.Views.AddItemPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="SmartGrocery.App.Views.AddItemPage"
-    Title="Add Item"
+    Title="Add Items"
     Padding="20">
-
-    <VerticalStackLayout Spacing="15">
-
-        <!-- Nome do item -->
-        <Entry x:Name="ItemNameEntry" Placeholder="Item name"/>
-
-        <!-- Quantidade -->
-        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-            <Label Text="Quantity:" VerticalOptions="Center"/>
-            <Stepper x:Name="QuantityStepper" Minimum="1" Maximum="50" Increment="1" Value="1"/>
-            <Label x:Name="QuantityLabel" Text="1" VerticalOptions="Center"/>
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="20">
+        
+        <!-- Input Form -->
+        <VerticalStackLayout Grid.Row="0" Spacing="20">
+            <!-- Item name -->
+            <Entry
+                x:Name="ItemNameEntry"
+                Placeholder="Item name"
+                ClearButtonVisibility="WhileEditing" />
+            
+            <!-- Quantity -->
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    Text="Quantity"
+                    FontAttributes="Bold" />
+                <HorizontalStackLayout
+                    Spacing="12"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <!-- Decrease button -->
+                    <Button
+                        Text="−"
+                        WidthRequest="48"
+                        HeightRequest="48"
+                        CornerRadius="24"
+                        FontSize="24"
+                        Clicked="Decrease_Clicked" />
+                    <!-- Value -->
+                    <Entry
+                        x:Name="QuantityEntry"
+                        Text="1"
+                        Keyboard="Numeric"
+                        HorizontalTextAlignment="Center"
+                        WidthRequest="80"
+                        FontSize="20" />
+                    <!-- Increase button -->
+                    <Button
+                        Text="+"
+                        WidthRequest="48"
+                        HeightRequest="48"
+                        CornerRadius="24"
+                        FontSize="24"
+                        Clicked="Increase_Clicked" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+            
+            <!-- Add button -->
+            <Button
+                Text="Add Item"
+                FontAttributes="Bold"
+                BackgroundColor="#512bd4"
+                TextColor="White"
+                Clicked="Add_Clicked" />
+        </VerticalStackLayout>
+        
+        <!-- Added Items List -->
+        <VerticalStackLayout Grid.Row="1" Spacing="12">
+            <Label
+                x:Name="AddedItemsLabel"
+                Text="Added Items:"
+                FontAttributes="Bold"
+                FontSize="16"
+                IsVisible="False"
+                Margin="0,12,0,0" />
+            
+            <ScrollView>
+                <VerticalStackLayout x:Name="AddedItemsContainer" Spacing="8" />
+            </ScrollView>
+        </VerticalStackLayout>
+        
+        <!-- Bottom buttons -->
+        <HorizontalStackLayout
+            Grid.Row="2"
+            Spacing="12"
+            HorizontalOptions="End">
+            <Button
+                Text="Cancel"
+                Clicked="Cancel_Clicked" />
+            <Button
+                x:Name="DoneButton"
+                Text="Done"
+                FontAttributes="Bold"
+                BackgroundColor="#512bd4"
+                TextColor="White"
+                IsVisible="False"
+                Clicked="Done_Clicked" />
         </HorizontalStackLayout>
-
-        <!-- Botões -->
-        <HorizontalStackLayout Spacing="10">
-            <Button Text="Cancel" Clicked="Cancel_Clicked"/>
-            <Button Text="Add" Clicked="Add_Clicked"/>
-        </HorizontalStackLayout>
-
-    </VerticalStackLayout>
+        
+    </Grid>
 </ContentPage>
-

@@ -1,3 +1,5 @@
+using AndroidX.ConstraintLayout.Core.Dsl;
+using SmartGrocery.App.Factories;
 using SmartGrocery.App.ViewModels;
 using SmartGrocery.Core.Interfaces;
 using SmartGrocery.Core.Models;
@@ -14,21 +16,21 @@ public partial class HomePage : ContentPage
         _vm = Helpers.ServiceProvider.GetService<HomeViewModel>();
         _repository = Helpers.ServiceProvider.GetService<IRepository>();
         BindingContext = _vm;
-        System.Diagnostics.Debug.WriteLine("HomePage initialized");
+        System.Console.WriteLine("HomePage initialized");
     }
 
      protected override async void OnAppearing()
     {
         base.OnAppearing();
         await _vm.LoadListsAsync();
-        System.Diagnostics.Debug.WriteLine($"Loaded {_vm.Lists.Count} lists");
+       System.Console.WriteLine($"Loaded {_vm.Lists.Count} lists");
     } 
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 {
     if (e.CurrentSelection.FirstOrDefault() is ShoppingList selectedList)
     {
         // Passa o objeto da lista para a página de detalhes
-        var page = new ShoppingListPage(new ShoppingListViewModel(_repository, selectedList));
+        var page = new ShoppingListPage(new ShoppingListViewModel(_repository, selectedList),Helpers.ServiceProvider.GetService<ShoppingListViewFactory>());
         await Navigation.PushAsync(page);
     }
 
