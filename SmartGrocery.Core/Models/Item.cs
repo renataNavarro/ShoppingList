@@ -14,6 +14,7 @@ public class Item
         public bool IsChecked { get; set; }
 
         public int Quantity { get; set; } = 1;
+        public decimal UnitPrice { get; set; }
 
         public DateTime? LastBought { get; set; }
 

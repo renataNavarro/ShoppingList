@@ -105,19 +105,45 @@ public partial class AddItemPage : ContentPage
             HasShadow = false
         };
         
-        var itemLabel = new Label
+        var grid = new Grid
         {
-            Text = $"{name} ({_quantity})",
-            TextColor = Colors.White,
-            FontSize = 16
+            ColumnDefinitions = 
+            {
+                new ColumnDefinition { Width = new GridLength(40, GridUnitType.Absolute) },
+                new ColumnDefinition { Width = GridLength.Star }
+            },
+            Padding = 4
         };
         
-        itemFrame.Content = itemLabel;
+        var quantityLabel = new Label
+        {
+            Text = _quantity.ToString(),
+            TextColor = Colors.White,
+            FontSize = 16,
+            FontAttributes = FontAttributes.Bold,
+            VerticalOptions = LayoutOptions.Center
+        };
+        
+        var itemLabel = new Label
+        {
+            Text = name,
+            TextColor = Colors.White,
+            FontSize = 16,
+            VerticalOptions = LayoutOptions.Center
+        };
+        
+        grid.Add(quantityLabel, 0, 0);
+        grid.Add(itemLabel, 1, 0);
+        
+        itemFrame.Content = grid;
+        
+        itemFrame.Content = grid;
         AddedItemsContainer.Children.Add(itemFrame);
         
         // Show the "Added Items" section and Done button
         AddedItemsLabel.IsVisible = true;
         DoneButton.IsVisible = true;
+        DoneButton2.IsVisible = true;
         
         // Clear form for next item
         ItemNameEntry.Text = string.Empty;

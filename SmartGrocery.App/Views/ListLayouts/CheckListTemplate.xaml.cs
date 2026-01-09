@@ -15,8 +15,9 @@ namespace SmartGrocery.App.Views.ListLayouts
             checkbox.BindingContext is Item item &&
             BindingContext is ShoppingListViewModel vm)
         {
-            item.IsChecked = e.Value;
+            //item.IsChecked = e.Value;
             await vm.UpdateItemAsync(item);
+        
         }
     }
     }

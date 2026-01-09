@@ -2,42 +2,113 @@
 <ContentView
     x:Class="SmartGrocery.App.Views.ListLayouts.SimpleListTemplate"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-
-    <VerticalStackLayout Padding="20" Spacing="10">
-<Label Text="Test" TextColor="White"></Label>
-        <!-- Lista de itens -->
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="SimpleListView">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="0">
+        
+        <!-- Top bar with search and clear completed -->
+        <Grid Grid.Row="0" RowDefinitions="Auto" RowSpacing="8" Padding="16,16,16,8">
+            <!-- Search bar -->
+            <Frame
+                Grid.Row="0"
+                Padding="4"
+                BackgroundColor="#2D2D2D"
+                BorderColor="Transparent"
+                CornerRadius="12"
+                HasShadow="False"
+                IsVisible="{Binding HasItems}">
+                <Entry
+                    ClearButtonVisibility="WhileEditing"
+                    Placeholder="Search items..."
+                    PlaceholderColor="#B0B0B0"
+                    Text="{Binding SearchQuery}"
+                    TextColor="White"
+                    BackgroundColor="Transparent" />
+            </Frame>
+        </Grid>
+        
+        <!-- Empty state -->
+        <VerticalStackLayout
+            Grid.Row="2"
+            Spacing="16"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsVisible="{Binding HasItems, Converter={StaticResource InverseBoolConverter}}">
+            <Label
+                Text="🛒"
+                FontSize="72"
+                HorizontalTextAlignment="Center" />
+            <Label
+                Text="Your list is empty"
+                FontSize="20"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                TextColor="White" />
+            <Label
+                Text="Tap the + button below to add your first item"
+                FontSize="14"
+                HorizontalTextAlignment="Center"
+                TextColor="#B0B0B0" />
+        </VerticalStackLayout>
+        
+        <!-- Items list -->
         <CollectionView
+            Grid.Row="2"
             ItemsSource="{Binding Items}"
             SelectionMode="None">
-
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10" ColumnDefinitions="*,Auto">
-
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" Padding="16,12">
+                        
+                        <!-- Item name -->
                         <Label
                             Grid.Column="0"
-                            FontSize="18"
-                            Text="{Binding ItemName}" />
-
-                        <Button
+                            FontSize="16"
+                            Text="{Binding ItemName}"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                        
+                        <!-- Delete button -->
+                        <ImageButton
                             Grid.Column="1"
-                            Text="🗑"
-                            BackgroundColor="red"
-                            Command="{Binding BindingContext.DeleteItemCommand,
-                                              Source={RelativeSource AncestorType={x:Type ContentView}}}"
-                            CommandParameter="{Binding .}" />
-
+                            Padding="8"
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference Name=SimpleListView}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="32"
+                            Source="trash_can.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="32" />
+                        
+                        <!-- Separator line -->
+                        <BoxView
+                            Grid.ColumnSpan="2"
+                            HeightRequest="1"
+                            Color="#3A3A3A"
+                            VerticalOptions="End"
+                            HorizontalOptions="Fill" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-
         </CollectionView>
-
-        <!-- Botão de adicionar item -->
+        
+        <!-- FAB for adding items -->
         <Button
-            Text="Add item"
-            Command="{Binding AddItemCommand}" />
-
-    </VerticalStackLayout>
+            Grid.Row="3"
+            Margin="0,0,20,20"
+            Command="{Binding AddItemCommand}"
+            CornerRadius="12"
+            HeightRequest="56"
+            WidthRequest="56"
+            Padding="0"
+            BackgroundColor="#512bd4"
+            FontSize="32"
+            Text="+"
+            TextColor="White"
+            Shadow="{Shadow Brush=#9D4EDD, Offset='0,2', Radius=12, Opacity=0.6}"
+            HorizontalOptions="End"
+            VerticalOptions="End"/>
+        
+    </Grid>
 </ContentView>

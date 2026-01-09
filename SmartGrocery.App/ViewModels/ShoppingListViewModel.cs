@@ -29,9 +29,9 @@ public class ShoppingListViewModel : BaseViewModel
 
     public ICommand RefreshCommand => new Command(async () => await LoadItemsAsync());
 
-    private ObservableCollection<Item> _allItems = new();
+    private ObservableCollection<ItemViewModel> _allItems = new();
 
-    public ObservableCollection<Item> Items { get; } = new();
+    public ObservableCollection<ItemViewModel> Items { get; set;}
     public bool HasItems => _allItems.Any();
 
     public string ListName => _shoppingList.ListName;
@@ -48,8 +48,8 @@ public class ShoppingListViewModel : BaseViewModel
         AddItemCommand = new Command(async () => await AddItemAsync());
 
         ClearCheckedCommand = new Command(async () => await ClearCheckedAsync());
-        
-        DeleteItemCommand = new Command<Item>(async item =>
+
+        DeleteItemCommand = new Command<ItemViewModel>(async item =>
         {
             await DeleteItemAsync(item);
         });
@@ -68,11 +68,11 @@ public class ShoppingListViewModel : BaseViewModel
     public async Task LoadItemsAsync()
     {
         System.Console.WriteLine("LoadItems");
-        var itemsFromRepo = await _repository.GetItemsByListIdAsync(_shoppingList.Id);
-
         _allItems.Clear();
-        foreach (var item in itemsFromRepo)
-            _allItems.Add(item);
+        var itemsFromRepo = await _repository.GetItemsByListIdAsync(_shoppingList.Id);
+        _allItems = new ObservableCollection<ItemViewModel>(
+            itemsFromRepo.Select(i => new ItemViewModel(i)));
+        
 
         ApplyFilter();  // atualiza a coleção visível
     }
@@ -85,11 +85,15 @@ public class ShoppingListViewModel : BaseViewModel
         while (page.Navigation.ModalStack.Contains(page))
             await Task.Delay(100);
 
-        if (page.ResultItem != null)
+        if (page.ResultItems.Any())
         {
-            await _repository.AddItemAsync(page.ResultItem);
+            foreach (var item in page.ResultItems)
+            {
+                await _repository.AddItemAsync(item);
+            }
             await LoadItemsAsync();
         }
+
     }
 
 
@@ -102,16 +106,22 @@ public class ShoppingListViewModel : BaseViewModel
 
         await LoadItemsAsync();
     }
-public async Task UpdateItemAsync(Item item)
+   public async Task UpdateItemAsync(ItemViewModel itemVm)
 {
-    await _repository.UpdateItemAsync(item);
+    await _repository.UpdateItemAsync(itemVm.Model);
 }
 
 
-    public async Task DeleteItemAsync(Item item)
-    {
-        await _repository.DeleteItemAsync(item.Id);
-        _allItems.Remove(item);
-        ApplyFilter();
-    }
+    public async Task DeleteItemAsync(ItemViewModel itemVm)
+{
+    await _repository.DeleteItemAsync(itemVm.Model.Id);
+
+    _allItems.Remove(itemVm);
+    ApplyFilter();
+}
+private async Task OnItemChanged(ItemViewModel item)
+{
+    await _repository.UpdateItemAsync(item.Model);
+}
+
 }

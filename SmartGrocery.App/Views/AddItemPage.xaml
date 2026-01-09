@@ -3,95 +3,167 @@
     x:Class="SmartGrocery.App.Views.AddItemPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Add Items"
-    Padding="20">
-    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="20">
-        
-        <!-- Input Form -->
-        <VerticalStackLayout Grid.Row="0" Spacing="20">
-            <!-- Item name -->
-            <Entry
-                x:Name="ItemNameEntry"
-                Placeholder="Item name"
-                ClearButtonVisibility="WhileEditing" />
-            
-            <!-- Quantity -->
-            <VerticalStackLayout Spacing="8">
-                <Label
-                    Text="Quantity"
-                    FontAttributes="Bold" />
-                <HorizontalStackLayout
-                    Spacing="12"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center">
-                    <!-- Decrease button -->
-                    <Button
-                        Text="−"
-                        WidthRequest="48"
-                        HeightRequest="48"
-                        CornerRadius="24"
-                        FontSize="24"
-                        Clicked="Decrease_Clicked" />
-                    <!-- Value -->
-                    <Entry
-                        x:Name="QuantityEntry"
-                        Text="1"
-                        Keyboard="Numeric"
-                        HorizontalTextAlignment="Center"
-                        WidthRequest="80"
-                        FontSize="20" />
-                    <!-- Increase button -->
-                    <Button
-                        Text="+"
-                        WidthRequest="48"
-                        HeightRequest="48"
-                        CornerRadius="24"
-                        FontSize="24"
-                        Clicked="Increase_Clicked" />
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-            
-            <!-- Add button -->
+    Title="Add Items">
+    <Grid Margin="0,12,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Top bar with Cancel and Done  -->
+        <Grid
+            Grid.Row="0"
+            Padding="0,0,0,8"
+            ColumnDefinitions="*,*">
             <Button
-                Text="Add Item"
-                FontAttributes="Bold"
+                Grid.Column="0"
+                BackgroundColor="Transparent"
+                Clicked="Cancel_Clicked"
+                FontSize="16"
+                HorizontalOptions="Start"
+                Text="Cancel"
+                TextColor="White" />
+
+            <Button
+                x:Name="DoneButton"
+                Grid.Column="1"
                 BackgroundColor="#512bd4"
+                Clicked="Done_Clicked"
+                CornerRadius="20"
+                FontAttributes="Bold"
+                FontSize="14"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                IsVisible="False"
+                Text="Done"
                 TextColor="White"
-                Clicked="Add_Clicked" />
-        </VerticalStackLayout>
-        
-        <!-- Added Items List -->
-        <VerticalStackLayout Grid.Row="1" Spacing="12">
-            <Label
-                x:Name="AddedItemsLabel"
-                Text="Added Items:"
+                WidthRequest="80" />
+
+
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Padding="24"
+            RowDefinitions="Auto,*,Auto"
+            RowSpacing="20">
+
+            <!--  Input Form  -->
+            <VerticalStackLayout Grid.Row="0" Spacing="20">
+
+                <!--  Item name  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalTextAlignment="Center"
+                    Text="Add Item" />
+
+                <Frame
+                    Padding="4"
+                    BackgroundColor="#2D2D2D"
+                    BorderColor="Transparent"
+                    CornerRadius="12"
+                    HasShadow="False">
+                    <Entry
+                        x:Name="ItemNameEntry"
+                        BackgroundColor="Transparent"
+                        ClearButtonVisibility="WhileEditing"
+                        Placeholder="Item name"
+                        PlaceholderColor="#B0B0B0"
+                        TextColor="White" />
+                </Frame>
+
+                <!--  Quantity  -->
+                <VerticalStackLayout Spacing="12">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Quantity" />
+
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="12">
+                        <!--  Decrease button  -->
+                        <Button
+                            BackgroundColor="#2D2D2D"
+                            Clicked="Decrease_Clicked"
+                            CornerRadius="24"
+                            FontSize="24"
+                            HeightRequest="48"
+                            Text="−"
+                            TextColor="White"
+                            WidthRequest="48" />
+
+                        <!--  Value  -->
+                        <Frame
+                            Padding="4"
+                            BackgroundColor="#2D2D2D"
+                            BorderColor="Transparent"
+                            CornerRadius="12"
+                            HasShadow="False"
+                            WidthRequest="80">
+                            <Entry
+                                x:Name="QuantityEntry"
+                                BackgroundColor="Transparent"
+                                FontSize="20"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                PlaceholderColor="#B0B0B0"
+                                Text="1"
+                                TextColor="White" />
+                        </Frame>
+
+                        <!--  Increase button  -->
+                        <Button
+                            BackgroundColor="#2D2D2D"
+                            Clicked="Increase_Clicked"
+                            CornerRadius="24"
+                            FontSize="24"
+                            HeightRequest="48"
+                            Text="+"
+                            TextColor="White"
+                            WidthRequest="48" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  Add button  -->
+                <Button
+                    BackgroundColor="#512bd4"
+                    Clicked="Add_Clicked"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Text="Add Item"
+                    TextColor="White" />
+            </VerticalStackLayout>
+
+            <!--  Added Items List  -->
+            <VerticalStackLayout
+                Grid.Row="1"
+                Margin="0,12,0,0"
+                Spacing="12">
+                <Label
+                    x:Name="AddedItemsLabel"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    IsVisible="False"
+                    Text="Added Items" />
+
+                <ScrollView>
+                    <VerticalStackLayout x:Name="AddedItemsContainer" Spacing="8" />
+                </ScrollView>
+            </VerticalStackLayout>
+
+            <!--  Done button at bottom  -->
+            <Button
+                x:Name="DoneButton2"
+                Grid.Row="2"
+                BackgroundColor="#512bd4"
+                Clicked="Done_Clicked"
                 FontAttributes="Bold"
                 FontSize="16"
                 IsVisible="False"
-                Margin="0,12,0,0" />
-            
-            <ScrollView>
-                <VerticalStackLayout x:Name="AddedItemsContainer" Spacing="8" />
-            </ScrollView>
-        </VerticalStackLayout>
-        
-        <!-- Bottom buttons -->
-        <HorizontalStackLayout
-            Grid.Row="2"
-            Spacing="12"
-            HorizontalOptions="End">
-            <Button
-                Text="Cancel"
-                Clicked="Cancel_Clicked" />
-            <Button
-                x:Name="DoneButton"
                 Text="Done"
-                FontAttributes="Bold"
-                BackgroundColor="#512bd4"
-                TextColor="White"
-                IsVisible="False"
-                Clicked="Done_Clicked" />
-        </HorizontalStackLayout>
-        
+                TextColor="White" />
+
+        </Grid>
     </Grid>
 </ContentPage>
